@@ -1,0 +1,12 @@
+.todo__list{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    border: 1px solid lightgray;
+    margin-bottom: 10px !important;
+    margin-right: 10px !important;
+    padding-right :20px !important;
+    }
+
+

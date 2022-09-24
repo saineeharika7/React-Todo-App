@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import  { useState , useEffect} from 'react';
+import TodoList from "./components/TodoList"
+import { Button, FormControl,  TextField } from '@mui/material'
+import db from './Firebase';
+import {  onSnapshot, collection, orderBy, query, doc, addDoc, updateDoc, serverTimestamp} from "firebase/firestore";
+import "./App.css"
+const q=query(collection(db,'todos'),orderBy('timestamp','desc'));
 
 function App() {
+  const [todos,setTodos]=useState([]);
+  const [input,setInput]=useState('');
+
+  
+
+  useEffect(() => {
+    onSnapshot(q,(snapshot)=>{
+    setTodos(snapshot.docs.map(doc=>({
+    id: doc.id,
+    item: doc.data()
+    })))
+    })
+    },[input]);
+
+
+ 
+    const addTodo=(e)=>{
+      e.preventDefault();
+      addDoc(collection(db,'todos'),{
+      todo:input,
+      timestamp: serverTimestamp()
+      })
+      setInput('')
+      };
+      
+
+      
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <h1>Things Todo ✅</h1>
+     <form>
+      <FormControl className ="form">
+        <TextField id="outlined-basic" label="Write a Todo" variant="outlined" style={{margin:"0px 5px"}} size="small" value ={input} onChange={e => setInput(e.target.value)} />
+      </FormControl>
+      
+      <Button disabled ={!input}    
+               type ="submit"
+               variant="contained" 
+               color ="primary" 
+               onClick={addTodo}>Add Todo
+      </Button>
+      </form>
+
+     <ul>
+     {todos.map(item=> <TodoList key={item.id} arr={item} />)}
+     </ul>
+     
     </div>
   );
 }
