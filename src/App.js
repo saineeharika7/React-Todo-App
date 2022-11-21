@@ -26,7 +26,7 @@ function App() {
     const addTodo=(e)=>{
       e.preventDefault();
       addDoc(collection(db,'todos'),{
-      todo:input,
+      todo:input || "",
       timestamp: serverTimestamp()
       })
       setInput('')
@@ -39,7 +39,7 @@ function App() {
      <h1>Things Todo ✅</h1>
      <form>
       <FormControl className ="form">
-        <TextField id="outlined-basic" label="Write a Todo" variant="outlined" style={{margin:"0px 5px"}} size="small" value ={input} onChange={e => setInput(e.target.value)} />
+        <TextField id="outlined-basic" label="Write a Todo" variant="outlined" style={{margin:"0px 5px"}} size="small" value ={input || ""} onChange={e => setInput(e.target.value)} />
       </FormControl>
       
       <Button disabled ={!input}    

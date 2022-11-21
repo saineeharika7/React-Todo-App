@@ -11,7 +11,7 @@ import { doc, deleteDoc , updateDoc,collection} from "firebase/firestore";
    
 const TodoList=({arr})=>{
     const[open,setOpen] = useState(false);
-    const[input ,setInput] = useState();
+    const[input ,setInput] = useState('');
     
   const updateTodo  = async (e) => {
     e.preventDefault();
